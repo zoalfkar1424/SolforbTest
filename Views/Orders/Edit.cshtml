@@ -1,0 +1,101 @@
+﻿@model SolforbTest.Models.Order
+
+@{
+    ViewData["Title"] = "Edit";
+    var itemsCount = 0;
+}
+
+<h4>Edit Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Number" class="control-label"></label>
+                <input asp-for="Number" class="form-control" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProviderId" class="control-label"></label>
+                <select asp-for="ProviderId" class="form-control" asp-items="ViewBag.ProviderId"></select>
+                <span asp-validation-for="ProviderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <table class="table" id="OrderItemsTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                Item Name
+                            </th>
+
+                            <th>
+                                Quantity
+                            </th>
+                            <th>
+                                Unit
+                            </th>
+                            <th>
+                                <button id='btnAddDetailRow' type="button" class="btn btn-sm btn-secondary visible" onclick="AddOrderItem(this)">
+                                    Add
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.OrderItems.Count; i++)
+                        {
+                            itemsCount++;
+                            <tr>
+                                <td>
+                                    <input asp-for="@Model.OrderItems[i].Name" class="form-control" />
+                                    <span asp-validation-for="@Model.OrderItems[i].Name" class="text-danger"></span>
+                                </td>
+
+                                <td>
+                                    <input asp-for="@Model.OrderItems[i].Quantity" class="form-control" />
+                                    <span asp-validation-for="@Model.OrderItems[i].Quantity" class="text-danger"></span>
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.OrderItems[i].Unit" class="form-control" />
+                                    <input type="hidden" asp-for="@Model.OrderItems[i].IsDeleted" />
+                                </td>
+
+
+
+                                <td style="width:60px;">
+                                    <button id='btnremove-@itemsCount' type="button" class="btn btn-sm btn-danger visible" onclick="DeleteOrderItem(this)">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+
+                    <div class="col-md-5">
+                        <a asp-action="Index" class="btn btn-danger">Back to List</a>
+                    </div>
+                </div>
+               
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

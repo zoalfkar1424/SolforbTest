@@ -1,0 +1,132 @@
+﻿@model IEnumerable<SolforbTest.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>Orders Index</h4>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="row">
+                <!-- Basic -->
+                <div class="col-md-10">
+                    <form asp-action="Index">
+                  <div class="card mb-5">
+                    <h5 class="card-header">Filters</h5>
+                    <div class="card-body demo-vertical-spacing demo-only-element">
+                        <div class="row">
+                            <div class="col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-text" >Order Number</span>
+                            <input type="text"
+                                   class="form-control"
+                                   id="orderNumber"
+                                   name="orderNumber"
+                                   placeholder="Order Number"
+                                   
+                                    />
+                        </div>
+                            </div>
+                    <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-text" >Order Item Name</span>
+                        <input type="text"
+                               class="form-control"
+                               id="orderItemName"
+                                name="orderItemName"
+                               placeholder="Item Name"
+                               
+                                />
+                    </div>
+                    </div>
+                    </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-text" >From</span>
+
+                            @Html.TextBox("fromDate",DateTime.Now.Date.AddMonths(-1),"{0:yyyy-MM-dd}", new { @class = "form-control" , type = "date"  })
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-text" >To</span>
+                            @Html.TextBox("todate",DateTime.Now.Date,"{0:yyyy-MM-dd}", new { @class = "form-control" , type = "date"  })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-text" >Unit</span>
+                        <input type="text"
+                               class="form-control"
+                               id="orderItemUnit"
+                                       name="orderItemUnit"
+                               placeholder="Item Unit"
+                          />
+                    </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            
+                            @Html.ListBox("providerlist", new MultiSelectList(ViewBag.providerlist, "Value", "Text"), new { @class = "form-control chosen-class", multiple = "multiple" })
+
+                        </div>
+                    </div>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <input type="submit" value="Search" class="btn btn-primary" />
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                  </form>
+                </div>
+             </div>
+
+
+<table class="table" id="ordertable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Provider)
+            </th>
+            <th>Control</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Provider.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-controller="OrderItems" asp-action="Index"  asp-route-orderId="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
