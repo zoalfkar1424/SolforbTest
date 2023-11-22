@@ -87,7 +87,6 @@ namespace SolforbTest.Controllers
             }
             else
             {
-                //ModelState.AddModelError("", "Item Name cannot be equal to Order Number");
                 return View(order);
             }
 
@@ -110,26 +109,33 @@ namespace SolforbTest.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Order order)
         {
-            order.OrderItems.RemoveAll(a => a.Quantity == 0);
-            bool bolret = false;
-            string errMessage = "";
+            if (ModelState.IsValid)
+            {
+                order.OrderItems.RemoveAll(a => a.Quantity == 0);
+                bool bolret = false;
+                string errMessage = "";
 
-            try
-            {
-                bolret = _orderRepo.Edit(order);
-            }
-            catch (Exception ex)
-            {
-                errMessage = errMessage + " " + ex.Message;
-            }
-            if (bolret == false)
-            {
-                errMessage = errMessage + " " + _orderRepo.GetErrors();
-                ModelState.AddModelError("", errMessage);
-                return View(order);
+                try
+                {
+                    bolret = _orderRepo.Edit(order);
+                }
+                catch (Exception ex)
+                {
+                    errMessage = errMessage + " " + ex.Message;
+                }
+                if (bolret == false)
+                {
+                    errMessage = errMessage + " " + _orderRepo.GetErrors();
+                    ModelState.AddModelError("", errMessage);
+                    return View(order);
+                }
+                else
+                    return RedirectToAction(nameof(Index));
             }
             else
-                return RedirectToAction(nameof(Index));
+            {              
+                return View(order);
+            }
         }
 
         // GET: Orders/Delete/5
