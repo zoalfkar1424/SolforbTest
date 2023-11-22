@@ -5,5 +5,5 @@ To run the application you need to apply the migration file that is existed in t
 Then edit the appsettings.json to match your database connectionstring.
 - used DI 
 - for Additional notes:
-    Nomber 7 existed in file DBContext/ApplicationDBcontext.cs
-    Nomber 8 existed in file Models/Order.cs
+    No. 7 existed in file DBContext/ApplicationDBcontext.cs
+    No. 8 existed in file Models/Order.cs
