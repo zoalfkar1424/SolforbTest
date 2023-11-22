@@ -74,8 +74,8 @@
                     </div>
                     <div class="col-md-5">
                         <div class="input-group">
-                            
-                            @Html.ListBox("providerlist", new MultiSelectList(ViewBag.providerlist, "Value", "Text"), new { @class = "form-control chosen-class", multiple = "multiple" })
+
+                                @Html.ListBox("providerlist", new MultiSelectList(ViewBag.providerlist, "Value", "Text"), new { @class = "form-control chosen-class", multiple = "multiple" ,placeholder = "provider" })
 
                         </div>
                     </div>
@@ -111,13 +111,13 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+                <td contenteditable='true'>
                 @Html.DisplayFor(modelItem => item.Number)
             </td>
-            <td>
+                <td contenteditable='true'>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
-            <td>
+                <td contenteditable='true'>
                 @Html.DisplayFor(modelItem => item.Provider.Name)
             </td>
             <td>
